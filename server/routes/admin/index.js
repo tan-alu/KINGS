@@ -18,6 +18,12 @@ module.exports = app => {
     //发送给客户端，让客户端知道已经完成
     res.send(items)
   })
+  // 获取某一个分类详情接口
+  router.get('/categories/:id', async (req, res) => {
+    const model = await Category.findById(req.params.id)
+    res.send(model)
+  })
+
   //将子路由挂载到中间件上
   app.use('/admin/api', router)
 }
