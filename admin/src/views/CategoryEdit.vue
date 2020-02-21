@@ -1,9 +1,9 @@
 <template>
   <div>
     <h1>新建分类</h1>
-    <el-form label-width="120px">
+    <el-form label-width="120px" @submit.native.prevent="save">
       <el-form-item label="名称">
-        <el-input v-model="model.name" @native-submit-prevent="save"></el-input>
+        <el-input v-model="model.name"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
