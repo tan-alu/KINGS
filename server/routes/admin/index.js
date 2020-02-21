@@ -11,6 +11,13 @@ module.exports = app => {
     //发送给客户端，让客户端知道已经完成
     res.send(model)
   })
+  // 获取列表数据
+  router.get('/categories', async (req, res) => {
+    //这里需要一个中间件才可以使用，在server文件的Index.js中添加
+    const items = await Category.find().limit(30)
+    //发送给客户端，让客户端知道已经完成
+    res.send(items)
+  })
   //将子路由挂载到中间件上
   app.use('/admin/api', router)
 }
