@@ -9,7 +9,7 @@ module.exports = app => {
   // const Category = require('../../models/Category')
   //把数据存进去
   router.post('/', async (req, res) => {
-    const Model = require(`../../models/${req.params.resource}`)
+    // const Model = require(`../../models/${req.params.resource}`)
     //这里需要一个中间件才可以使用，在server文件的Index.js中添加
     const model = await req.Model.create(req.body)
     //发送给客户端，让客户端知道已经完成
