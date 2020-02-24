@@ -25,7 +25,7 @@ module.exports = app => {
   })
   // 获取列表数据
   router.get('/categories', async (req, res) => {
-    const items = await Category.find().limit(30)
+    const items = await Category.find().populate('parents').limit(30)
     res.send(items)
   })
   // 获取某一个分类详情接口
