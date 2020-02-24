@@ -11,6 +11,10 @@ module.exports = app => {
     //发送给客户端，让客户端知道已经完成
     res.send(model)
   })
+  router.put('/categories/:id', async (req, res) => {
+    const model = await Category.findByIdAndUpdate(req.params.id, req.body)
+    res.send(model)
+  })
   // 获取列表数据
   router.get('/categories', async (req, res) => {
     //这里需要一个中间件才可以使用，在server文件的Index.js中添加

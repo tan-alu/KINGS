@@ -24,7 +24,15 @@ export default {
   },
   methods: {
     async save () {
-      const res = await this.$http.post('categories', this.model)
+      // 新增和编辑
+      let res
+      if (this.id) {
+        // 编辑
+        res = await this.$http.put(`categories/${this.id}`, this.model)
+      } else {
+        // 新增
+        res = await this.$http.post('categories', this.model)
+      }
       console.log(res)
       this.$router.push('/categories/list')
       this.$message({
