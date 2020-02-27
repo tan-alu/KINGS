@@ -6,6 +6,8 @@ const app = express()
 app.use(express.json())
 //跨域模块
 app.use(require('cors')())
+// 托管静态文件，让我们可以通过/upload访问到文件
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 require('./routes/admin')(app)
 require('./plugins/db')(app)

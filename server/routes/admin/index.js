@@ -49,4 +49,18 @@ module.exports = app => {
       next()
     },
     router)
+
+  // npm i multer
+  const multer = require('multer')
+  //中间件，上传目标地址
+  const upload = multer({
+    dest: __dirname + '/../../uploads'
+  })
+  // 单文件上传
+  app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+    const file = req.file
+    file.url = `http://localhost:3000/uploads/${file.filename}`
+    res.send(file)
+
+  })
 }
