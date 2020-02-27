@@ -14,6 +14,11 @@
             <el-menu-item index="/items/create">物品分类</el-menu-item>
             <el-menu-item index="/items/list">物品列表</el-menu-item>
           </el-menu-item-group>
+          <el-menu-item-group>
+            <template slot="title">英雄</template>
+            <el-menu-item index="/heroes/create">英雄分类</el-menu-item>
+            <el-menu-item index="/heroes/list">英雄列表</el-menu-item>
+          </el-menu-item-group>
         </el-submenu>
       </el-menu>
     </el-aside>
