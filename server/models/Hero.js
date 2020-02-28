@@ -35,7 +35,7 @@ const schema = new mongoose.Schema({
       type: String
     },
     name: {
-      type: Sring
+      type: String
     },
     description: {
       type: String
