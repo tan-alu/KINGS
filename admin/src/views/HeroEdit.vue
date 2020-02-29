@@ -65,13 +65,13 @@
         </el-tab-pane>
         <el-tab-pane label="技能" name="skills">
           <el-button type="text" @click="model.skills.push({})">
-            <i class="el-icon-plus">添加技能</i>
+            <i class="el-icon-plus"></i>添加技能
           </el-button>
           <el-row type="flex" style="flex-wrap:wrap">
             <!-- 根据索引（唯一值）push进去 -->
             <el-col :md="12" v-for="(item,i) in model.skills" :key="i">
               <el-form-item label="名称">
-                <el-input v-model="item.name"></el-input>
+                <el-input></el-input>
               </el-form-item>
               <el-form-item label="图标">
                 <el-upload class="avatar-uploader" :action="$http.defaults.baseURL + '/upload'" :show-file-list="false"
@@ -112,7 +112,8 @@ export default {
         name: '',
         scores: {
           difficult: 0
-        }
+        },
+        skills: []
       },
       categories: [],
       items: []
