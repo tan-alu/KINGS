@@ -11,7 +11,7 @@
         <el-input v-model="model.title"></el-input>
       </el-form-item>
       <el-form-item label="详情">
-        <el-input v-model="model.body"></el-input>
+        <vue-editor v-model="model.body"></vue-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -21,9 +21,13 @@
 </template>
 
 <script>
+import { VueEditor } from 'vue2-editor'
 export default {
   props: {
     id: {}
+  },
+  components: {
+    VueEditor
   },
   data () {
     return {
