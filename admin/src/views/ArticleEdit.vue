@@ -11,7 +11,7 @@
         <el-input v-model="model.title"></el-input>
       </el-form-item>
       <el-form-item label="详情">
-        <vue-editor v-model="model.body"></vue-editor>
+        <vue-editor useCustomImageHandler @image-added="handleImageAdded" v-model="model.body"></vue-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -36,6 +36,19 @@ export default {
     }
   },
   methods: {
+    // 富文本编辑器里上传的图片
+    async handleImageAdded (file, Editor, cursorLocation, resetUploader) {
+      // An example of using FormData
+      // NOTE: Your key could be different such as:
+      // formData.append('file', file)
+
+      var formData = new FormData()
+      // 后端定义的字段是file
+      formData.append('file', file)
+      const res = await this.$http.post('upload', formData)
+      Editor.insertEmbed(cursorLocation, 'image', res.data.url)
+      resetUploader()
+    },
     async save () {
       // 新增和编辑
       let res
