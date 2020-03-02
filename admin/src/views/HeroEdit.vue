@@ -71,7 +71,7 @@
             <!-- 根据索引（唯一值）push进去 -->
             <el-col :md="12" v-for="(item,i) in model.skills" :key="i">
               <el-form-item label="名称">
-                <el-input></el-input>
+                <el-input v-model="item.name"></el-input>
               </el-form-item>
               <el-form-item label="图标">
                 <el-upload class="avatar-uploader" :action="$http.defaults.baseURL + '/upload'" :show-file-list="false"
