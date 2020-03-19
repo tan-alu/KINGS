@@ -1,6 +1,9 @@
 //具体路由
 module.exports = app => {
   const express = require('express')
+  const jwt = require('jsonwebtoken')
+  const AdminUser = require('../../models/AdminUser')
+
   // 定义一个路由,是express的一个子路由
   const router = express.Router({
     // 合并参数
@@ -27,8 +30,19 @@ module.exports = app => {
       type: true
     })
   })
-  // 获取列表数据
-  router.get('/', async (req, res) => {
+  // 获取资源列表
+  router.get('/', async (req, res, next) => {
+    // 校验用户是否登录
+    // 获取请求头
+    const token = String(req.headers.authorization || '').split(' ').pop()
+    const {
+      id
+    } = jwt.verify(token, app.get('secret'))
+    // 客户端请求时用户对象是谁
+    req.user = await AdminUser.findById(id)
+    // console.log(tokenData)
+    await next()
+  }, async (req, res) => {
     const queryOptions = {}
     if (req.Model.modelName === 'Category') {
       queryOptions.populate = 'parents'
@@ -71,7 +85,6 @@ module.exports = app => {
       password
     } = req.body
     // 根据用户名找用户
-    const AdminUser = require('../../models/AdminUser')
     const user = await AdminUser.findOne({
       username
       // unique: true
@@ -89,7 +102,6 @@ module.exports = app => {
       })
     }
     // 返回Token
-    const jwt = require('jsonwebtoken')
     const token = jwt.sign({
       id: user.id
     }, app.get('secret'))
