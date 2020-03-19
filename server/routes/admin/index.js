@@ -32,7 +32,34 @@ module.exports = app => {
     })
   })
   // 获取资源列表
-  router.get('/', async (req, res, next) => {
+  router.get('/', async (req, res) => {
+    const queryOptions = {}
+    if (req.Model.modelName === 'Category') {
+      queryOptions.populate = 'parents'
+    }
+    const items = await req.Model.find().setOptions(queryOptions).limit(30)
+    res.send(items)
+  })
+  // 获取某一个分类详情接口
+  router.get('/:id', async (req, res) => {
+    const model = await req.Model.findById(req.params.id)
+    res.send(model)
+  })
+  // 登录授权（ 校验） 中间件
+  const authMiddelware = require('../../middleware/auth')
+  // 资源中间件
+  const resourceMiddleware = require('../../middleware/resource')
+  //将子路由挂载到中间件上
+  app.use('/admin/api/rest/:resource', authMiddelware(), resourceMiddleware(), router)
+
+  // npm i multer
+  const multer = require('multer')
+  //中间件，上传目标地址
+  const upload = multer({
+    dest: __dirname + '/../../uploads'
+  })
+  // 单文件上传
+  app.post('/admin/api/upload', authMiddelware(), async (req, res, next) => {
     // 校验用户是否登录
     // 获取请求头
     const token = String(req.headers.authorization || '').split(' ').pop()
@@ -46,36 +73,7 @@ module.exports = app => {
     assert(req.user, 401, '请先登录')
     // console.log(tokenData)
     await next()
-  }, async (req, res) => {
-    const queryOptions = {}
-    if (req.Model.modelName === 'Category') {
-      queryOptions.populate = 'parents'
-    }
-    const items = await req.Model.find().setOptions(queryOptions).limit(30)
-    res.send(items)
-  })
-  // 获取某一个分类详情接口
-  router.get('/:id', async (req, res) => {
-    const model = await req.Model.findById(req.params.id)
-    res.send(model)
-  })
-
-  //将子路由挂载到中间件上
-  app.use('/admin/api/rest/:resource', async (req, res, next) => {
-      const modelName = require('inflection').classify(req.params.resource)
-      req.Model = require(`../../models/${modelName}`)
-      next()
-    },
-    router)
-
-  // npm i multer
-  const multer = require('multer')
-  //中间件，上传目标地址
-  const upload = multer({
-    dest: __dirname + '/../../uploads'
-  })
-  // 单文件上传
-  app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+  }, upload.single('file'), async (req, res) => {
     const file = req.file
     file.url = `http://localhost:3000/uploads/${file.filename}`
     res.send(file)
