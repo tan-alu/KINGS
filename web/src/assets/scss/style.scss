@@ -1,4 +1,5 @@
-//reset
+//reset（实现）
+@import './variables';
 
 * {
   box-sizing: border-box;
@@ -23,7 +24,7 @@ a {
 }
 
 //colors
-$colors:(primary:#db9e3f, 'white':#fff, 'black':#000, dark:#222, 'grey':#999, 'grey-1':#666, light:#f9f9f9, 'dark-1':#343440);
+$colors:(primary:#db9e3f, 'info':#4bfa6b, 'white':#fff, 'black':#000, dark:#222, 'grey':#999, 'grey-1':#666, light:#f9f9f9, 'dark-1':#343440);
 
 @each $colorKey,
 $color in $colors {
@@ -32,7 +33,7 @@ $color in $colors {
   }
 
   .bg-#{$colorKey} {
-    background-color: $color;
+    background-color: $color !important;
   }
 }
 
@@ -40,8 +41,17 @@ $color in $colors {
 // text
 @each $var in (left, center, right) {
   .text-#{$var} {
-    text-align: $var;
+    text-align: $var !important;
   }
+}
+
+// width height
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
 }
 
 // font-size
